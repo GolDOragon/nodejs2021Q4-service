@@ -1,6 +1,7 @@
 const { ServiceError, SERVICE_ERROR_CODES } = require('../errors/ServiceError');
 const { validateUUID4 } = require('../helpers/validateUUID4');
 const { boardRepository } = require('../repositories/board.repository');
+const { taskRepository } = require('../repositories/task.repository');
 
 async function getBoards() {
   const boards = await boardRepository.getAll();
@@ -36,7 +37,9 @@ async function deleteBoardById(id) {
   }
 
   const deletedBoard = await boardRepository.deleteOne(id);
-  // deletedBoard;
+
+  await taskRepository.deleteBy((task) => task.boardId === deletedBoard.id);
+
   return deletedBoard;
 }
 

@@ -35,6 +35,7 @@ const taskRouter = (request, response, ctx) => {
 
     case 'DELETE':
       taskController.deleteTaskById(request, response, {
+        boardId,
         taskId,
       });
       break;

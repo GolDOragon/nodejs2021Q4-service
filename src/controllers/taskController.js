@@ -12,21 +12,21 @@ async function getTaskById(request, response, { boardId, taskId }) {
   );
 }
 
-async function createTask(request, response, { body }) {
+async function createTask(request, response, { boardId, body }) {
   getResponse(response, RESPONSE_CODES.Created, () =>
-    taskService.createUser(body)
+    taskService.createTask({ boardId, body })
   );
 }
 
-async function updateTaskById(request, response, { id, body }) {
+async function updateTaskById(request, response, { boardId, taskId, body }) {
   getResponse(response, RESPONSE_CODES.OK, () =>
-    taskService.updateUserById(id, body)
+    taskService.updateTaskById({ boardId, taskId, body })
   );
 }
 
-async function deleteTaskById(request, response, { id }) {
+async function deleteTaskById(request, response, { boardId, taskId }) {
   getResponse(response, RESPONSE_CODES.Deleted, () =>
-    taskService.deleteUserById(id)
+    taskService.deleteTaskById({ boardId, taskId })
   );
 }
 

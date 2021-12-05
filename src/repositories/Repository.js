@@ -44,6 +44,13 @@ class Repository {
     return this.toResponse(newItem);
   }
 
+  async deleteBy(condition) {
+    const deletedItems = this.items.filter((item) => !condition(item));
+    this.items = this.items.filter(condition);
+
+    return deletedItems;
+  }
+
   async deleteOne(id) {
     const index = this.items.findIndex((entity) => entity.id === id);
 

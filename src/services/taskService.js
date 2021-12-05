@@ -3,13 +3,7 @@ const { validateUUID4 } = require('../helpers/validateUUID4');
 const { boardRepository } = require('../repositories/board.repository');
 const { taskRepository } = require('../repositories/task.repository');
 
-async function getTasks(boardId) {
-  const tasks = await taskRepository.getAll((task) => task.boardId === boardId);
-
-  return tasks;
-}
-
-async function getTaskById({ boardId, taskId }) {
+async function checkTaskInBoard(boardId, taskId) {
   if (!validateUUID4(boardId)) {
     throw new ServiceError('Invalid board id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -25,37 +19,48 @@ async function getTaskById({ boardId, taskId }) {
 
   const task = await taskRepository.getOne(taskId);
 
-  if (task.boardId !== boardId) {
-    throw new ServiceError('Unknown board', SERVICE_ERROR_CODES.BAD_REQUEST);
+  if (task.boardId !== board.id) {
+    throw new ServiceError(
+      "Task doesn't exist",
+      SERVICE_ERROR_CODES.BAD_REQUEST
+    );
   }
 
-  return task;
+  return true;
 }
 
-async function createTask(body) {
-  return taskRepository.create(body);
+async function getTasks(boardId) {
+  const tasks = await taskRepository.getAll((task) => task.boardId === boardId);
+
+  return tasks;
 }
 
-async function updateUserById(id, body) {
-  if (!validateUUID4(id)) {
-    throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
-  }
+async function getTaskById({ boardId, taskId }) {
+  await checkTaskInBoard(boardId, taskId);
 
-  return taskRepository.updateOne(id, body);
+  return taskRepository.getOne(taskId);
 }
 
-async function deleteUserById(id) {
-  if (!validateUUID4(id)) {
-    throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
-  }
+async function createTask({ boardId, body }) {
+  return taskRepository.create({ ...body, boardId });
+}
 
-  return taskRepository.deleteOne(id);
+async function updateTaskById({ boardId, taskId, body }) {
+  await checkTaskInBoard(boardId, taskId);
+
+  return taskRepository.updateOne(taskId, body);
+}
+
+async function deleteTaskById({ boardId, taskId }) {
+  await checkTaskInBoard(boardId, taskId);
+
+  return taskRepository.deleteOne(taskId);
 }
 
 module.exports = {
   getTasks,
   getTaskById,
   createTask,
-  updateUserById,
-  deleteUserById,
+  updateTaskById,
+  deleteTaskById,
 };

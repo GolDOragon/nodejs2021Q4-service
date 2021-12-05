@@ -1,5 +1,6 @@
 const { ServiceError, SERVICE_ERROR_CODES } = require('../errors/ServiceError');
 const { validateUUID4 } = require('../helpers/validateUUID4');
+const { taskRepository } = require('../repositories/task.repository');
 const { userRepository } = require('../repositories/user.repository');
 
 async function getUsers() {
@@ -35,7 +36,19 @@ async function deleteUserById(id) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
 
-  return userRepository.deleteOne(id);
+  const deletedUser = await userRepository.deleteOne(id);
+
+  const userTasks = await taskRepository.getAll(
+    ({ userId }) => userId === deletedUser.id
+  );
+
+  Promise.all(
+    userTasks.map((task) =>
+      taskRepository.updateOne(task.id, { ...task, userId: null })
+    )
+  );
+
+  return deletedUser;
 }
 
 module.exports = {
