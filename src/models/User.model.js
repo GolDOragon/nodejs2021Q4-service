@@ -1,7 +1,7 @@
 const { Entity } = require('./Entity');
 
 class User extends Entity {
-  constructor(name, login, password) {
+  constructor({ name, login, password }) {
     super();
 
     this.name = name;
@@ -12,12 +12,13 @@ class User extends Entity {
   static isValidArgs({ name, login, password }) {
     return (
       typeof name === 'string' &&
-      name.length > 4 &&
       typeof login === 'string' &&
-      login.length > 4 &&
-      typeof password === 'string' &&
-      password.length > 6
+      typeof password === 'string'
     );
+  }
+
+  static toResponse({ id, name, login }) {
+    return { id, name, login };
   }
 }
 

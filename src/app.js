@@ -1,24 +1,11 @@
-const express = require('express');
-const swaggerUI = require('swagger-ui-express');
-const path = require('path');
-const YAML = require('yamljs');
-const userRouter = require('./resources/users/user.router');
+const { createServer } = require('node:http');
+const { calcBody } = require('./helpers/calcBody');
+const { getRouter } = require('./routers/getRoute');
 
-const app = express();
-const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
+const app = createServer((request, response) => {
+  const router = getRouter(request.url);
 
-app.use(express.json());
-
-app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
-app.use('/', (req, res, next) => {
-  if (req.originalUrl === '/') {
-    res.send('Service is running!');
-    return;
-  }
-  next();
+  calcBody(request, response, router);
 });
 
-app.use('/users', userRouter);
-
-module.exports = app;
+module.exports = { app };

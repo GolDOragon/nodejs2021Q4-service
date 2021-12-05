@@ -1,9 +1,12 @@
 module.exports = {
-  async getResponse(response, responseBody) {
+  async getResponse(response, code, responseBody) {
     try {
       const body = await responseBody();
 
-      response.writeHead(200, { 'Content-Type': 'application/json' });
+      response.writeHead(code, {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      });
       response.write(JSON.stringify(body));
     } catch (error) {
       response.statusCode = error.code || 500;

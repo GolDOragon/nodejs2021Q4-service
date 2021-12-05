@@ -40,6 +40,7 @@ class Repository {
     const newItem = new this.Entity(item);
 
     this.items.push(newItem);
+
     return this.toResponse(newItem);
   }
 
