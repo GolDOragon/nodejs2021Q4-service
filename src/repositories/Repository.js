@@ -12,8 +12,8 @@ class Repository {
     this.toResponse = entityClass.toResponse;
   }
 
-  async getAll() {
-    return this.items.map((item) => this.toResponse(item));
+  async getAll(filterBy = () => true) {
+    return this.items.filter(filterBy).map((item) => this.toResponse(item));
   }
 
   async getOne(id) {

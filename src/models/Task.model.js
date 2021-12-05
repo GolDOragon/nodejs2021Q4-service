@@ -1,7 +1,7 @@
 const { Entity } = require('./Entity');
 
 class Task extends Entity {
-  constructor(title, order, description, userId, boardId, columnId) {
+  constructor({ title, order, description, userId, boardId, columnId }) {
     super();
 
     this.title = title;

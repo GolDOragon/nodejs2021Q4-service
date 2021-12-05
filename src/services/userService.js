@@ -9,7 +9,7 @@ async function getUsers() {
 }
 
 async function getUserById(id) {
-  if (!validateUUID4) {
+  if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
 
