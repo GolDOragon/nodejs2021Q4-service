@@ -1,6 +1,6 @@
 const { ServiceError, SERVICE_ERROR_CODES } = require('../errors/ServiceError');
 const { validateUUID4 } = require('../helpers/validateUUID4');
-const { userRepository } = require('../repositories/userRepository');
+const { userRepository } = require('../repositories/user.repository');
 
 async function getUsers() {
   const users = await userRepository.getAll();

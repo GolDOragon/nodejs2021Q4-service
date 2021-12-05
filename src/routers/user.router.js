@@ -1,6 +1,6 @@
 const UrlPattern = require('url-pattern');
-const { unknownRouter } = require('./unknownRouter');
-const userController = require('../controllers/userController');
+const { unknownRouter } = require('./unknown.router');
+const userController = require('../controllers/user.controller');
 
 const userPattern = new UrlPattern('/users(/:userId)');
 
