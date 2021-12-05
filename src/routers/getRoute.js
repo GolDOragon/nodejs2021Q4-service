@@ -1,6 +1,6 @@
-const { unknownRouter } = require('./unknown.router');
-const { userPattern, userRouter } = require('./user.router');
-const { boardPattern, boardRouter } = require('./board.router');
+const { unknownRouter } = require('./unknownRouter');
+const { userPattern, userRouter } = require('./userRouter');
+const { boardPattern, boardRouter } = require('./boardRouter');
 
 const getRouter = (url) => {
   if (userPattern.match(url)) {

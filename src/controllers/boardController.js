@@ -1,5 +1,5 @@
-const { getResponse } = require('./getResponse');
-const boardService = require('../services/board.service');
+const { getResponse } = require('../helpers/getResponse');
+const boardService = require('../services/boardService');
 const { RESPONSE_CODES } = require('../helpers/responseCodes');
 
 async function getAllBoards(request, response) {

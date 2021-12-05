@@ -1,5 +1,5 @@
-const { getResponse } = require('./getResponse');
-const userService = require('../services/user.service');
+const { getResponse } = require('../helpers/getResponse');
+const userService = require('../services/userService');
 const { RESPONSE_CODES } = require('../helpers/responseCodes');
 
 async function getAllUsers(request, response) {

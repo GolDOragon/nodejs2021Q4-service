@@ -1,6 +1,6 @@
 const UrlPattern = require('url-pattern');
-const boardController = require('../controllers/board.controller');
-const { unknownRouter } = require('./unknown.router');
+const boardController = require('../controllers/boardController');
+const { unknownRouter } = require('./unknownRouter');
 
 const boardPattern = new UrlPattern('/boards(/:boardId)');
 
