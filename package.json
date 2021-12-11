@@ -67,7 +67,8 @@
     "lint-staged": "12.0.3",
     "nodemon": "2.0.15",
     "prettier": "2.4.1",
-    "supertest": "6.1.6"
+    "supertest": "6.1.6",
+    "typescript": "^4.5.3"
   },
   "nodemonConfig": {
     "events": {
