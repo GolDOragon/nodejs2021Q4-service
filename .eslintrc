@@ -1,0 +1,20 @@
+{
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:eslint-plugin-import/recommended",
+    "plugin:eslint-comments/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "rules": {
+    "import/extensions": "off",
+    "linebreak-style": "off",
+    "node/no-unsupported-features/es-syntax": "off",
+    "no-underscore-dangle": "off",
+    "import/prefer-default-export": "off"
+  }
+}
