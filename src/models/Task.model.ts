@@ -1,6 +1,22 @@
 import { validateUUID4 } from '../helpers/validateUUID4';
 import { Entity } from './Entity';
 
+export type TaskFields = {
+  /** Task title */
+  title: string;
+  /** Task order in column */
+  order: number;
+  /** Task description */
+  description: string;
+  /** Assigned User {@link User} */
+  userId: string | null;
+  /** A board id to which the task belongs */
+  boardId: string | null;
+  /** A column id to which the task belongs */
+  columnId: string | null;
+};
+
+/** Represent task in database */
 export class Task extends Entity {
   public title: string;
 
@@ -14,6 +30,11 @@ export class Task extends Entity {
 
   public columnId: string | null;
 
+  /**
+   * Create Task
+   * @param object base fields {@link TaskFields}
+   * @returns Task instance
+   */
   constructor({
     title,
     order,
@@ -21,7 +42,7 @@ export class Task extends Entity {
     userId,
     boardId,
     columnId,
-  }: Omit<Task, 'id'>) {
+  }: TaskFields) {
     super();
 
     this.title = title;
@@ -32,13 +53,18 @@ export class Task extends Entity {
     this.columnId = columnId;
   }
 
+  /**
+   * Check if the object can be used in task creation
+   * @param object see {@link TaskFields}
+   * @returns true if we can create a task from object, otherwise false
+   */
   static isValidArgs({
     title,
     order,
     description,
     userId,
     boardId,
-  }: Omit<Task, 'id'>): boolean {
+  }: TaskFields): boolean {
     return (
       typeof title === 'string' &&
       typeof order === 'number' &&
@@ -48,6 +74,11 @@ export class Task extends Entity {
     );
   }
 
+  /**
+   * Can remove secret field from task
+   * @param task {@link Task}
+   * @returns now, full Task instance
+   */
   public static toResponse({
     id,
     title,
