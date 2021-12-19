@@ -1,6 +1,9 @@
 import { RepositoryError, REPOSITORY_CODES } from '../errors/RepositoryError';
 import { Entity, Newable } from '../models/Entity';
 
+/**
+ * Represent work with database (current uses data-in-memory database)
+ */
 export class Repository<
   TEntity extends Entity,
   TClass extends Newable<TEntity>
@@ -15,6 +18,13 @@ export class Repository<
 
   private items: TEntity[] = [];
 
+  /**
+   * Create repository, that stores model instance
+   * @param entityClass entity model
+   * @param toResponse prepare instance to return
+   * @param isValidArgs check if args can be used in creation model instance
+   * @returns Model Repository
+   */
   constructor(
     entityClass: TClass,
     toResponse: (instance: TEntity) => Partial<TEntity>,
@@ -26,6 +36,11 @@ export class Repository<
     this.isValidArgs = isValidArgs;
   }
 
+  /**
+   * Get all stored instance, also can filter them before returning
+   * @param filterBy model filter
+   * @returns Array of instance
+   */
   async getAll(filterBy?: (item: TEntity) => boolean) {
     return Promise.resolve(
       this.items
@@ -34,6 +49,11 @@ export class Repository<
     );
   }
 
+  /**
+   * Find instance by Id and return it
+   * @param id instance id
+   * @returns Instance
+   */
   async getOne(id: string) {
     const item = this.items.find((entity) => entity.id === id);
 
@@ -47,6 +67,11 @@ export class Repository<
     return Promise.resolve(this.toResponse(item));
   }
 
+  /**
+   * Write new instance in database, before writing checks object fields
+   * @param item base fields
+   * @returns Instance
+   */
   async create(item: Omit<TEntity, 'id'>) {
     if (!this.isValidArgs(item)) {
       throw new RepositoryError(
@@ -62,6 +87,11 @@ export class Repository<
     return Promise.resolve(this.toResponse(newItem));
   }
 
+  /**
+   * Delete instance by condition
+   * @param condition model filter
+   * @returns Array of deleted instance
+   */
   async deleteBy(condition: (item: TEntity) => boolean) {
     const deletedItems = this.items
       .filter((item) => !condition(item))
@@ -72,6 +102,11 @@ export class Repository<
     return Promise.resolve(deletedItems);
   }
 
+  /**
+   * Delete instance by id
+   * @param id instance id
+   * @returns deleted instance
+   */
   async deleteOne(id: string) {
     const index = this.items.findIndex((entity) => entity.id === id);
 
@@ -87,6 +122,12 @@ export class Repository<
     return Promise.resolve(this.toResponse(deletedItem as TEntity));
   }
 
+  /**
+   * Find instance by id and update it
+   * @param id instance id
+   * @param newFields updated fields
+   * @returns updated instance
+   */
   async updateOne(id: string, newFields: Partial<TEntity>) {
     const index = this.items.findIndex((entity) => entity.id === id);
 
