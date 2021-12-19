@@ -7,7 +7,7 @@ import { Task } from '../models/Task.model';
 
 export const taskPattern = new UrlPattern('/boards/:boardId/tasks(/:taskId)');
 
-export const taskRouter: IRouter<{ body: Partial<Task> }> = async (
+export const taskRouter: IRouter<{ body: Omit<Task, 'id'> }> = async (
   request,
   response,
   ctx
@@ -25,33 +25,35 @@ export const taskRouter: IRouter<{ body: Partial<Task> }> = async (
     case 'GET':
       if (taskId) {
         await taskController.getTaskById(request, response, {
-          boardId,
+          boardId: boardId ?? '',
           taskId,
         });
       } else {
-        await taskController.getAllTasks(request, response, { boardId });
+        await taskController.getAllTasks(request, response, {
+          boardId: boardId ?? '',
+        });
       }
       break;
 
     case 'POST':
       await taskController.createTask(request, response, {
-        boardId,
+        boardId: boardId ?? '',
         body: ctx.body,
       });
       break;
 
     case 'PUT':
       await taskController.updateTaskById(request, response, {
-        boardId,
-        taskId,
+        boardId: boardId ?? '',
+        taskId: taskId ?? '',
         body: ctx.body,
       });
       break;
 
     case 'DELETE':
       await taskController.deleteTaskById(request, response, {
-        boardId,
-        taskId,
+        boardId: boardId ?? '',
+        taskId: taskId ?? '',
       });
       break;
 

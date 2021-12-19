@@ -6,7 +6,7 @@ import { unknownRouter } from './unknownRouter';
 
 export const userPattern = new UrlPattern('/users(/:userId)');
 
-export const userRouter: IRouter<{ body: Partial<User> }> = async (
+export const userRouter: IRouter<{ body: Omit<User, 'id'> }> = async (
   request,
   response,
   ctx

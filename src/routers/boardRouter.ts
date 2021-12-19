@@ -6,7 +6,7 @@ import { unknownRouter } from './unknownRouter';
 
 export const boardPattern = new UrlPattern('/boards(/:boardId)');
 
-export const boardRouter: IRouter<{ body: Partial<Board> }> = async (
+export const boardRouter: IRouter<{ body: Omit<Board, 'id'> }> = async (
   request,
   response,
   ctx
