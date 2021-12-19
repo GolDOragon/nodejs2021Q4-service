@@ -1,11 +1,19 @@
-const UrlPattern = require('url-pattern');
-const { unknownRouter } = require('./unknownRouter');
-const userController = require('../controllers/userController');
+import UrlPattern from 'url-pattern';
+import userController from '../controllers/userController';
+import { User } from '../models/User.model';
+import type { IRouter } from './getRoute';
+import { unknownRouter } from './unknownRouter';
 
-const userPattern = new UrlPattern('/users(/:userId)');
+export const userPattern = new UrlPattern('/users(/:userId)');
 
-const userRouter = (request, response, ctx) => {
-  const { userId } = userPattern.match(request.url);
+export const userRouter: IRouter<{ body: Partial<User> }> = (
+  request,
+  response,
+  ctx
+) => {
+  const { userId } = userPattern.match(request.url ?? '') as {
+    userId?: string;
+  };
 
   switch (request.method) {
     case 'GET':
@@ -34,8 +42,6 @@ const userRouter = (request, response, ctx) => {
       break;
 
     default:
-      unknownRouter(request, response);
+      unknownRouter(request, response, ctx);
   }
 };
-
-module.exports = { userPattern, userRouter };

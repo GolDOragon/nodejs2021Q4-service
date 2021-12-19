@@ -1,11 +1,15 @@
-const UrlPattern = require('url-pattern');
-const boardController = require('../controllers/boardController');
-const { unknownRouter } = require('./unknownRouter');
+import UrlPattern from 'url-pattern';
+import boardController from '../controllers/boardController';
+import { Context } from '../helpers/calcBody';
+import { IRouter } from './getRoute';
+import { unknownRouter } from './unknownRouter';
 
-const boardPattern = new UrlPattern('/boards(/:boardId)');
+export const boardPattern = new UrlPattern('/boards(/:boardId)');
 
-const boardRouter = (request, response, ctx) => {
-  const { boardId } = boardPattern.match(request.url);
+export const boardRouter: IRouter<Context> = (request, response, ctx) => {
+  const { boardId } = boardPattern.match(request.url ?? '') as {
+    boardId?: string;
+  };
 
   switch (request.method) {
     case 'GET':
@@ -34,8 +38,6 @@ const boardRouter = (request, response, ctx) => {
       break;
 
     default:
-      unknownRouter(request, response);
+      unknownRouter(request, response, ctx);
   }
 };
-
-module.exports = { boardRouter, boardPattern };

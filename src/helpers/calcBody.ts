@@ -1,19 +1,17 @@
 import { IncomingMessage, ServerResponse } from 'http';
 
+export type Context = { body: string | object };
+
 export const calcBody = (
   request: IncomingMessage,
   response: ServerResponse,
   router: (
     request: IncomingMessage,
     response: ServerResponse,
-    context: Record<string, unknown>
+    context: Context
   ) => void
 ) => {
-  const context: {
-    body: string | object;
-  } = {
-    body: '',
-  };
+  const context: Context = { body: '' };
   const data: Uint8Array[] = [];
 
   // assemble stream of data from request body
