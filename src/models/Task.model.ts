@@ -32,7 +32,7 @@ export class Task extends Entity {
 
   /**
    * Create Task
-   * @param object base fields {@link TaskFields}
+   * @param object - base fields {@link TaskFields}
    * @returns Task instance
    */
   constructor({
@@ -55,7 +55,7 @@ export class Task extends Entity {
 
   /**
    * Check if the object can be used in task creation
-   * @param object see {@link TaskFields}
+   * @param object - see {@link TaskFields}
    * @returns true if we can create a task from object, otherwise false
    */
   static isValidArgs({
@@ -76,7 +76,7 @@ export class Task extends Entity {
 
   /**
    * Can remove secret field from task
-   * @param task {@link Task}
+   * @param task - {@link Task}
    * @returns now, full Task instance
    */
   public static toResponse({

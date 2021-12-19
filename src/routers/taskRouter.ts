@@ -13,9 +13,9 @@ type TaskContext = {
 
 /**
  * Work with task route
- * @param request Request
- * @param response Response
- * @param ctx context {@link TaskContext}
+ * @param request - Request
+ * @param response - Response
+ * @param ctx - context {@link TaskContext}
  */
 export const taskRouter: IRouter<TaskContext> = async (
   request,

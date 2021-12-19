@@ -5,9 +5,9 @@ const NOT_FOUND = 404;
 
 /**
  * Used if Client request un-exist endpoint
- * @param request Request
- * @param response Response
- * @param ctx optional Context
+ * @param request - Request
+ * @param response - Response
+ * @param ctx - optional Context
  */
 export const unknownRouter: IRouter<Context> = (request, response) => {
   response.statusCode = NOT_FOUND;

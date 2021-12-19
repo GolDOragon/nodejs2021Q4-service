@@ -6,8 +6,8 @@ import { AppError } from './AppError';
 export class RepositoryError extends AppError {
   /**
    * Create Repository's errors
-   * @param message error message
-   * @param code error code {@link REPOSITORY_CODES}
+   * @param message - error message
+   * @param code - error code {@link REPOSITORY_CODES}
    *
    * @returns Repository error
    */

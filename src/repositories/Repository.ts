@@ -20,9 +20,9 @@ export class Repository<
 
   /**
    * Create repository, that stores model instance
-   * @param entityClass entity model
-   * @param toResponse prepare instance to return
-   * @param isValidArgs check if args can be used in creation model instance
+   * @param entityClass - entity model
+   * @param toResponse - prepare instance to return
+   * @param isValidArgs - check if args can be used in creation model instance
    * @returns Model Repository
    */
   constructor(
@@ -38,7 +38,7 @@ export class Repository<
 
   /**
    * Get all stored instance, also can filter them before returning
-   * @param filterBy model filter
+   * @param filterBy - model filter
    * @returns Array of instance
    */
   async getAll(filterBy?: (item: TEntity) => boolean) {
@@ -51,7 +51,7 @@ export class Repository<
 
   /**
    * Find instance by Id and return it
-   * @param id instance id
+   * @param id - instance id
    * @returns Instance
    */
   async getOne(id: string) {
@@ -69,7 +69,7 @@ export class Repository<
 
   /**
    * Write new instance in database, before writing checks object fields
-   * @param item base fields
+   * @param item - base fields
    * @returns Instance
    */
   async create(item: Omit<TEntity, 'id'>) {
@@ -89,7 +89,7 @@ export class Repository<
 
   /**
    * Delete instance by condition
-   * @param condition model filter
+   * @param condition - model filter
    * @returns Array of deleted instance
    */
   async deleteBy(condition: (item: TEntity) => boolean) {
@@ -104,7 +104,7 @@ export class Repository<
 
   /**
    * Delete instance by id
-   * @param id instance id
+   * @param id - instance id
    * @returns deleted instance
    */
   async deleteOne(id: string) {
@@ -124,8 +124,8 @@ export class Repository<
 
   /**
    * Find instance by id and update it
-   * @param id instance id
-   * @param newFields updated fields
+   * @param id - instance id
+   * @param newFields - updated fields
    * @returns updated instance
    */
   async updateOne(id: string, newFields: Partial<TEntity>) {

@@ -1,6 +1,6 @@
 /**
  * Test a string to see if it is a valid UUID
- * @param str string to validate
+ * @param str - string to validate
  * @returns true if string is a valid UUID, false otherwise
  */
 export const validateUUID4 = (str: string): boolean =>

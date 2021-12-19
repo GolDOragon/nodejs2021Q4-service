@@ -6,8 +6,8 @@ import { AppError } from './AppError';
 export class ServiceError extends AppError {
   /**
    * Create Service's errors
-   * @param message error message
-   * @param code error code {@link SERVICE_ERROR_CODES}
+   * @param message - error message
+   * @param code - error code {@link SERVICE_ERROR_CODES}
    *
    * @returns Service error
    */

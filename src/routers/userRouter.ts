@@ -12,9 +12,9 @@ type UserContext = {
 
 /**
  * Work with user route
- * @param request Request
- * @param response Response
- * @param ctx context {@link UserContext}
+ * @param request - Request
+ * @param response - Response
+ * @param ctx - context {@link UserContext}
  */
 export const userRouter: IRouter<UserContext> = async (
   request,

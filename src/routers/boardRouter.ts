@@ -12,9 +12,9 @@ type BoardContext = {
 
 /**
  * Work with Board route
- * @param request Request
- * @param response Response
- * @param ctx context {@link BoardContext}
+ * @param request - Request
+ * @param response - Response
+ * @param ctx - context {@link BoardContext}
  */
 export const boardRouter: IRouter<BoardContext> = async (
   request,

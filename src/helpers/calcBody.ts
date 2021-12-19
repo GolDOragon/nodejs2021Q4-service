@@ -5,9 +5,9 @@ export type Context = { body: string | object };
 
 /**
  * Calculate body from request and add it into context
- * @param {IncomingMessage} request request
- * @param {ServerResponse} response response
- * @param router one of API routers {@link IRouter}
+ * @param request - request
+ * @param response - response
+ * @param router - one of API routers {@link IRouter}
  */
 export const calcBody = (
   request: IncomingMessage,

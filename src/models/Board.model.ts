@@ -15,7 +15,7 @@ export class Board extends Entity {
 
   /**
    * Create Board with base fields
-   * @param object base fields {@link BoardFields}
+   * @param object - base fields {@link BoardFields}
    *
    * @returns Board instance
    */
@@ -28,7 +28,7 @@ export class Board extends Entity {
 
   /**
    * Check if the object can be used in board creation
-   * @param object see {@link BoardFields}
+   * @param object - see {@link BoardFields}
    * @returns true if we can create a board from object, otherwise false
    */
   static isValidArgs({ title, columns }: BoardFields) {
@@ -37,7 +37,7 @@ export class Board extends Entity {
 
   /**
    * Can remove secret field from task
-   * @param task {@link Task}
+   * @param task - {@link Task}
    * @returns now, full Task instance
    */
   static toResponse({ id, title, columns }: Board): Partial<Board> {

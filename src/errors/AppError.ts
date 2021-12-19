@@ -23,7 +23,7 @@ export class AppError extends Error {
 
   /**
    * Create a application error
-   * @param options options for Error {@link AppErrorType}
+   * @param options - options for Error {@link AppErrorType}
    *
    * @returns Application error
    */

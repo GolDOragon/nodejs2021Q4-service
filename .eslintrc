@@ -2,6 +2,7 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
+  "plugins": ["@typescript-eslint/eslint-plugin", "eslint-plugin-tsdoc"],
   "extends": [
     "airbnb-typescript/base",
     "plugin:node/recommended",
@@ -19,6 +20,7 @@
       {
         "tryExtensions": [".js", ".json", ".ts"]
       }
-    ]
+    ],
+    "tsdoc/syntax": "warn"
   }
 }

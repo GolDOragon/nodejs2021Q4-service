@@ -19,7 +19,8 @@ export class User extends Entity {
 
   /**
    * Create User with base fields
-   * @param object base fields {@link UserFields}
+   *
+   * @param object - base fields {@link UserFields}
    *
    * @returns User instance
    */
@@ -33,7 +34,7 @@ export class User extends Entity {
 
   /**
    * Check if the object can be used in user creation
-   * @param object object see {@link UserFields}
+   * @param object - object see {@link UserFields}
    * @returns true if we can create a user from object, otherwise false
    */
   static isValidArgs({ name, login, password }: UserFields): boolean {
@@ -46,7 +47,7 @@ export class User extends Entity {
 
   /**
    * Remove secret field from user
-   * @param user {@link User}
+   * @param user - {@link User}
    * @returns User without secret fields
    */
   static toResponse({ id, name, login }: User): Partial<User> {
