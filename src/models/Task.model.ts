@@ -1,16 +1,6 @@
 import { validateUUID4 } from '../helpers/validateUUID4';
 import { Entity } from './Entity';
 
-type TaskType = {
-  id: string;
-  title: string;
-  order: number;
-  description: string;
-  userId: string;
-  boardId: string;
-  columnId: string;
-};
-
 export class Task extends Entity {
   public title: string;
 
@@ -31,7 +21,7 @@ export class Task extends Entity {
     userId,
     boardId,
     columnId,
-  }: Omit<TaskType, 'id'>) {
+  }: Omit<Task, 'id'>) {
     super();
 
     this.title = title;
@@ -48,7 +38,7 @@ export class Task extends Entity {
     description,
     userId,
     boardId,
-  }: Omit<TaskType, 'id'>) {
+  }: Omit<Task, 'id'>): boolean {
     return (
       typeof title === 'string' &&
       typeof order === 'number' &&
@@ -58,7 +48,7 @@ export class Task extends Entity {
     );
   }
 
-  static toResponse({
+  public static toResponse({
     id,
     title,
     order,
@@ -66,7 +56,7 @@ export class Task extends Entity {
     userId,
     boardId,
     columnId,
-  }: TaskType) {
+  }: Task): Partial<Task> {
     return {
       id,
       title,

@@ -1,12 +1,5 @@
 import { Entity } from './Entity';
 
-type UserType = {
-  id: string;
-  name: string;
-  login: string;
-  password: string;
-};
-
 export class User extends Entity {
   public name: string;
 
@@ -14,7 +7,7 @@ export class User extends Entity {
 
   public password: string;
 
-  constructor({ name, login, password }: Omit<UserType, 'id'>) {
+  constructor({ name, login, password }: Omit<User, 'id'>) {
     super();
 
     this.name = name;
@@ -22,7 +15,7 @@ export class User extends Entity {
     this.password = password;
   }
 
-  static isValidArgs({ name, login, password }: Omit<UserType, 'id'>) {
+  static isValidArgs({ name, login, password }: Omit<User, 'id'>): boolean {
     return (
       typeof name === 'string' &&
       typeof login === 'string' &&
@@ -30,7 +23,7 @@ export class User extends Entity {
     );
   }
 
-  static toResponse({ id, name, login }: UserType) {
+  static toResponse({ id, name, login }: User): Partial<User> {
     return { id, name, login };
   }
 }
