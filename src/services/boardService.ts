@@ -1,6 +1,6 @@
 import { ServiceError, SERVICE_ERROR_CODES } from '../errors/ServiceError';
 import { validateUUID4 } from '../helpers/validateUUID4';
-import { Board } from '../models/Board.model';
+import { BoardFields } from '../models/Board.model';
 import { boardRepository } from '../repositories/board.repository';
 import { taskRepository } from '../repositories/task.repository';
 
@@ -20,11 +20,11 @@ export async function getBoardById(id: string) {
   return board;
 }
 
-export async function createBoard(body: Omit<Board, 'id'>) {
+export async function createBoard(body: BoardFields) {
   return boardRepository.create(body);
 }
 
-export async function updateBoardById(id: string, body: Omit<Board, 'id'>) {
+export async function updateBoardById(id: string, body: BoardFields) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }

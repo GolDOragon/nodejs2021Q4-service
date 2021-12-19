@@ -1,6 +1,6 @@
 import { ServiceError, SERVICE_ERROR_CODES } from '../errors/ServiceError';
 import { validateUUID4 } from '../helpers/validateUUID4';
-import { Task } from '../models/Task.model';
+import { TaskFields } from '../models/Task.model';
 import { boardRepository } from '../repositories/board.repository';
 import { taskRepository } from '../repositories/task.repository';
 
@@ -53,7 +53,7 @@ export async function createTask({
   body,
 }: {
   boardId: string;
-  body: Omit<Task, 'id'>;
+  body: TaskFields;
 }) {
   return taskRepository.create({ ...body, boardId });
 }
@@ -65,7 +65,7 @@ export async function updateTaskById({
 }: {
   boardId: string;
   taskId: string;
-  body: Omit<Task, 'id'>;
+  body: TaskFields;
 }) {
   await checkTaskInBoard(boardId, taskId);
 

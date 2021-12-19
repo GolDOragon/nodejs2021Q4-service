@@ -1,6 +1,6 @@
 import { ServiceError, SERVICE_ERROR_CODES } from '../errors/ServiceError';
 import { validateUUID4 } from '../helpers/validateUUID4';
-import { User } from '../models/User.model';
+import { UserFields } from '../models/User.model';
 import { taskRepository } from '../repositories/task.repository';
 import { userRepository } from '../repositories/user.repository';
 
@@ -20,11 +20,11 @@ export async function getUserById(id: string) {
   return user;
 }
 
-export async function createUser(body: Omit<User, 'id'>) {
+export async function createUser(body: UserFields) {
   return userRepository.create(body);
 }
 
-export async function updateUserById(id: string, body: Omit<User, 'id'>) {
+export async function updateUserById(id: string, body: UserFields) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
