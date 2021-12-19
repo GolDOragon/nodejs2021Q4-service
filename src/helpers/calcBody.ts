@@ -1,15 +1,18 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { IRouter } from '../routers/getRoute';
 
 export type Context = { body: string | object };
 
+/**
+ * Calculate body from request and add it into context
+ * @param {IncomingMessage} request request
+ * @param {ServerResponse} response response
+ * @param router one of API routers {@link IRouter}
+ */
 export const calcBody = (
   request: IncomingMessage,
   response: ServerResponse,
-  router: (
-    request: IncomingMessage,
-    response: ServerResponse,
-    context: Context
-  ) => void
+  router: IRouter<Context>
 ) => {
   const context: Context = { body: '' };
   const data: Uint8Array[] = [];

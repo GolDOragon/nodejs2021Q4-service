@@ -1,6 +1,12 @@
 import { ServerResponse } from 'http';
 import { AppError } from '../errors/AppError';
 
+/**
+ * Prepare and send response to a client
+ * @param response response {@link ServerResponse}
+ * @param code status code
+ * @param responseBody function that calculate body for response
+ */
 export async function getResponse(
   response: ServerResponse,
   code: number,
