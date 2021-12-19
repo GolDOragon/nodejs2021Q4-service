@@ -1,6 +1,16 @@
 import { AppError } from './AppError';
 
+/**
+ * Represent Services errors, can log errors in a file
+ */
 export class ServiceError extends AppError {
+  /**
+   * Create Service's errors
+   * @param message error message
+   * @param code error code {@link SERVICE_ERROR_CODES}
+   *
+   * @returns Service error
+   */
   constructor(message: string, code: number) {
     super({ message, code, logFile: 'serviceLog.txt', name: 'ServiceError' });
 

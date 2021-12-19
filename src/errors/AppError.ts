@@ -1,18 +1,32 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-type AppErrorType = {
+/** Options for {@link AppError} */
+interface AppErrorType {
+  /** error message */
   message: string;
+  /** Error class name */
   name: string;
+  /** error code */
   code: number;
+  /** a file which will be using for logging errors */
   logFile: string;
-};
+}
 
+/**
+ * Represent API errors, can log errors in a file
+ */
 export class AppError extends Error {
   public code: number;
 
   public logFile: string;
 
+  /**
+   * Create a application error
+   * @param options options for Error {@link AppErrorType}
+   *
+   * @returns Application error
+   */
   constructor({ message, name, code, logFile }: AppErrorType) {
     super(message);
 
@@ -21,6 +35,9 @@ export class AppError extends Error {
     this.logFile = logFile;
   }
 
+  /**
+   * Log all error in selected file
+   */
   logger() {
     fs.appendFile(
       path.resolve(__dirname, this.logFile),
