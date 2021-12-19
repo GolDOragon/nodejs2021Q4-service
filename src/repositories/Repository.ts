@@ -11,14 +11,14 @@ export class Repository<
 
   private toResponse: (instance: TEntity) => Partial<TEntity>;
 
-  private isValidArgs: (instance: TEntity) => boolean;
+  private isValidArgs: (instance: Omit<TEntity, 'id'>) => boolean;
 
   private items: TEntity[] = [];
 
   constructor(
     entityClass: TClass,
     toResponse: (instance: TEntity) => Partial<TEntity>,
-    isValidArgs: (instance: TEntity) => boolean
+    isValidArgs: (instance: Omit<TEntity, 'id'>) => boolean
   ) {
     this.Entity = entityClass;
     this.name = entityClass.constructor.name;
@@ -47,7 +47,7 @@ export class Repository<
     return Promise.resolve(this.toResponse(item));
   }
 
-  async create(item: TEntity) {
+  async create(item: Omit<TEntity, 'id'>) {
     if (!this.isValidArgs(item)) {
       throw new RepositoryError(
         'Unknown Entity',

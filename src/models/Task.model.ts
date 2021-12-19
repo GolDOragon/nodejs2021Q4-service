@@ -8,11 +8,11 @@ export class Task extends Entity {
 
   public description: string;
 
-  public userId: string;
+  public userId: string | null;
 
-  public boardId: string;
+  public boardId: string | null;
 
-  public columnId: string;
+  public columnId: string | null;
 
   constructor({
     title,
@@ -43,8 +43,8 @@ export class Task extends Entity {
       typeof title === 'string' &&
       typeof order === 'number' &&
       typeof description === 'string' &&
-      (validateUUID4(userId) || userId === null) &&
-      validateUUID4(boardId)
+      (userId === null || validateUUID4(userId)) &&
+      (boardId === null || validateUUID4(boardId))
     );
   }
 

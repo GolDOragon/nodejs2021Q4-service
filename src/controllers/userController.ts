@@ -1,6 +1,6 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { getResponse } from '../helpers/getResponse';
-import userService from '../services/userService';
+import * as userService from '../services/userService';
 import { RESPONSE_CODES } from '../helpers/responseCodes';
 import { User } from '../models/User.model';
 
@@ -24,7 +24,7 @@ export async function getUserById(
 export async function createUser(
   _: IncomingMessage,
   response: ServerResponse,
-  { body }: { body: Partial<User> }
+  { body }: { body: Omit<User, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.Created, () =>
     userService.createUser(body)
@@ -34,7 +34,7 @@ export async function createUser(
 export async function updateUserById(
   _: IncomingMessage,
   response: ServerResponse,
-  { id, body }: { id: string; body: Partial<User> }
+  { id, body }: { id: string; body: Omit<User, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.OK, () =>
     userService.updateUserById(id, body)

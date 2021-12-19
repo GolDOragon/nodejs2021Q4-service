@@ -1,7 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { getResponse } from '../helpers/getResponse';
-import boardService from '../services/boardService';
+import * as boardService from '../services/boardService';
 import { RESPONSE_CODES } from '../helpers/responseCodes';
+import { Board } from '../models/Board.model';
 
 export async function getAllBoards(
   _: IncomingMessage,
@@ -25,7 +26,7 @@ export async function getBoardById(
 export async function createBoard(
   _: IncomingMessage,
   response: ServerResponse,
-  { body }: { body: object }
+  { body }: { body: Omit<Board, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.Created, () =>
     boardService.createBoard(body)
@@ -35,7 +36,7 @@ export async function createBoard(
 export async function updateBoardById(
   _: IncomingMessage,
   response: ServerResponse,
-  { id, body }: { id: string; body: object }
+  { id, body }: { id: string; body: Omit<Board, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.OK, () =>
     boardService.updateBoardById(id, body)

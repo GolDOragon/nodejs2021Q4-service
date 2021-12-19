@@ -1,7 +1,8 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { getResponse } from '../helpers/getResponse';
-import taskService from '../services/taskService';
+import * as taskService from '../services/taskService';
 import { RESPONSE_CODES } from '../helpers/responseCodes';
+import { Task } from '../models/Task.model';
 
 export async function getAllTasks(
   _: IncomingMessage,
@@ -26,7 +27,7 @@ export async function getTaskById(
 export async function createTask(
   _: IncomingMessage,
   response: ServerResponse,
-  { boardId, body }: { boardId: string; body: object }
+  { boardId, body }: { boardId: string; body: Omit<Task, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.Created, () =>
     taskService.createTask({ boardId, body })
@@ -36,7 +37,11 @@ export async function createTask(
 export async function updateTaskById(
   _: IncomingMessage,
   response: ServerResponse,
-  { boardId, taskId, body }: { boardId: string; taskId: string; body: object }
+  {
+    boardId,
+    taskId,
+    body,
+  }: { boardId: string; taskId: string; body: Omit<Task, 'id'> }
 ) {
   await getResponse(response, RESPONSE_CODES.OK, () =>
     taskService.updateTaskById({ boardId, taskId, body })

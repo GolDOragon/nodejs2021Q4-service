@@ -1,15 +1,16 @@
-const { ServiceError, SERVICE_ERROR_CODES } = require('../errors/ServiceError');
-const { validateUUID4 } = require('../helpers/validateUUID4');
-const { boardRepository } = require('../repositories/board.repository');
-const { taskRepository } = require('../repositories/task.repository');
+import { ServiceError, SERVICE_ERROR_CODES } from '../errors/ServiceError';
+import { validateUUID4 } from '../helpers/validateUUID4';
+import { Board } from '../models/Board.model';
+import { boardRepository } from '../repositories/board.repository';
+import { taskRepository } from '../repositories/task.repository';
 
-async function getBoards() {
+export async function getBoards() {
   const boards = await boardRepository.getAll();
 
   return boards;
 }
 
-async function getBoardById(id) {
+export async function getBoardById(id: string) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -19,11 +20,11 @@ async function getBoardById(id) {
   return board;
 }
 
-async function createBoard(body) {
+export async function createBoard(body: Omit<Board, 'id'>) {
   return boardRepository.create(body);
 }
 
-async function updateBoardById(id, body) {
+export async function updateBoardById(id: string, body: Omit<Board, 'id'>) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -31,7 +32,7 @@ async function updateBoardById(id, body) {
   return boardRepository.updateOne(id, body);
 }
 
-async function deleteBoardById(id) {
+export async function deleteBoardById(id: string) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -42,11 +43,3 @@ async function deleteBoardById(id) {
 
   return deletedBoard;
 }
-
-module.exports = {
-  getBoardById,
-  getBoards,
-  createBoard,
-  updateBoardById,
-  deleteBoardById,
-};
