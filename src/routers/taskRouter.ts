@@ -1,37 +1,47 @@
 import UrlPattern from 'url-pattern';
 import { unknownRouter } from './unknownRouter';
-import taskController from '../controllers/taskController';
+import * as taskController from '../controllers/taskController';
 import { validateUUID4 } from '../helpers/validateUUID4';
 import { IRouter } from './getRoute';
-import { Context } from '../helpers/calcBody';
+import { Task } from '../models/Task.model';
 
 export const taskPattern = new UrlPattern('/boards/:boardId/tasks(/:taskId)');
 
-export const taskRouter: IRouter<Context> = (request, response, ctx) => {
+export const taskRouter: IRouter<{ body: Partial<Task> }> = async (
+  request,
+  response,
+  ctx
+) => {
   const { boardId, taskId } = taskPattern.match(request.url ?? '') as {
     boardId?: string;
     taskId?: string;
   };
 
-  if (!boardId || (boardId && !validateUUID4(boardId))) {
+  if (!boardId || !validateUUID4(boardId)) {
     unknownRouter(request, response, ctx);
   }
 
   switch (request.method) {
     case 'GET':
       if (taskId) {
-        taskController.getTaskById(request, response, { boardId, taskId });
+        await taskController.getTaskById(request, response, {
+          boardId,
+          taskId,
+        });
       } else {
-        taskController.getAllTasks(request, response, { boardId });
+        await taskController.getAllTasks(request, response, { boardId });
       }
       break;
 
     case 'POST':
-      taskController.createTask(request, response, { boardId, body: ctx.body });
+      await taskController.createTask(request, response, {
+        boardId,
+        body: ctx.body,
+      });
       break;
 
     case 'PUT':
-      taskController.updateTaskById(request, response, {
+      await taskController.updateTaskById(request, response, {
         boardId,
         taskId,
         body: ctx.body,
@@ -39,7 +49,7 @@ export const taskRouter: IRouter<Context> = (request, response, ctx) => {
       break;
 
     case 'DELETE':
-      taskController.deleteTaskById(request, response, {
+      await taskController.deleteTaskById(request, response, {
         boardId,
         taskId,
       });

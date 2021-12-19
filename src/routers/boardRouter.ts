@@ -1,12 +1,16 @@
 import UrlPattern from 'url-pattern';
-import boardController from '../controllers/boardController';
-import { Context } from '../helpers/calcBody';
+import * as boardController from '../controllers/boardController';
+import { Board } from '../models/Board.model';
 import { IRouter } from './getRoute';
 import { unknownRouter } from './unknownRouter';
 
 export const boardPattern = new UrlPattern('/boards(/:boardId)');
 
-export const boardRouter: IRouter<Context> = (request, response, ctx) => {
+export const boardRouter: IRouter<{ body: Partial<Board> }> = async (
+  request,
+  response,
+  ctx
+) => {
   const { boardId } = boardPattern.match(request.url ?? '') as {
     boardId?: string;
   };
@@ -14,26 +18,26 @@ export const boardRouter: IRouter<Context> = (request, response, ctx) => {
   switch (request.method) {
     case 'GET':
       if (boardId) {
-        boardController.getBoardById(request, response, { id: boardId });
+        await boardController.getBoardById(request, response, { id: boardId });
       } else {
-        boardController.getAllBoards(request, response);
+        await boardController.getAllBoards(request, response);
       }
       break;
 
     case 'POST':
-      boardController.createBoard(request, response, { body: ctx.body });
+      await boardController.createBoard(request, response, { body: ctx.body });
       break;
 
     case 'PUT':
-      boardController.updateBoardById(request, response, {
-        id: boardId,
+      await boardController.updateBoardById(request, response, {
+        id: boardId ?? '',
         body: ctx.body,
       });
       break;
 
     case 'DELETE':
-      boardController.deleteBoardById(request, response, {
-        id: boardId,
+      await boardController.deleteBoardById(request, response, {
+        id: boardId ?? '',
       });
       break;
 
