@@ -1,15 +1,16 @@
-const { ServiceError, SERVICE_ERROR_CODES } = require('../errors/ServiceError');
-const { validateUUID4 } = require('../helpers/validateUUID4');
-const { taskRepository } = require('../repositories/task.repository');
-const { userRepository } = require('../repositories/user.repository');
+import { ServiceError, SERVICE_ERROR_CODES } from '../errors/ServiceError';
+import { validateUUID4 } from '../helpers/validateUUID4';
+import { UserFields } from '../models/User.model';
+import { taskRepository } from '../repositories/task.repository';
+import { userRepository } from '../repositories/user.repository';
 
-async function getUsers() {
+export async function getUsers() {
   const users = await userRepository.getAll();
 
   return users;
 }
 
-async function getUserById(id) {
+export async function getUserById(id: string) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -19,11 +20,11 @@ async function getUserById(id) {
   return user;
 }
 
-async function createUser(body) {
+export async function createUser(body: UserFields) {
   return userRepository.create(body);
 }
 
-async function updateUserById(id, body) {
+export async function updateUserById(id: string, body: UserFields) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -31,7 +32,7 @@ async function updateUserById(id, body) {
   return userRepository.updateOne(id, body);
 }
 
-async function deleteUserById(id) {
+export async function deleteUserById(id: string) {
   if (!validateUUID4(id)) {
     throw new ServiceError('Invalid id', SERVICE_ERROR_CODES.INVALID_ID);
   }
@@ -42,19 +43,11 @@ async function deleteUserById(id) {
     ({ userId }) => userId === deletedUser.id
   );
 
-  Promise.all(
+  await Promise.all(
     userTasks.map((task) =>
-      taskRepository.updateOne(task.id, { ...task, userId: null })
+      taskRepository.updateOne(task.id ?? '', { ...task, userId: null })
     )
   );
 
   return deletedUser;
 }
-
-module.exports = {
-  getUserById,
-  getUsers,
-  createUser,
-  updateUserById,
-  deleteUserById,
-};
