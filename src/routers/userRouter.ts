@@ -1,12 +1,22 @@
 import UrlPattern from 'url-pattern';
 import * as userController from '../controllers/userController';
-import { User } from '../models/User.model';
+import { UserFields } from '../models/User.model';
 import type { IRouter } from './getRoute';
 import { unknownRouter } from './unknownRouter';
 
 export const userPattern = new UrlPattern('/users(/:userId)');
 
-export const userRouter: IRouter<{ body: Omit<User, 'id'> }> = async (
+type UserContext = {
+  body: UserFields;
+};
+
+/**
+ * Work with user route
+ * @param request Request
+ * @param response Response
+ * @param ctx context {@link UserContext}
+ */
+export const userRouter: IRouter<UserContext> = async (
   request,
   response,
   ctx

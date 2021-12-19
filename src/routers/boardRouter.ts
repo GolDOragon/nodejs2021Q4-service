@@ -1,12 +1,22 @@
 import UrlPattern from 'url-pattern';
 import * as boardController from '../controllers/boardController';
-import { Board } from '../models/Board.model';
+import { BoardFields } from '../models/Board.model';
 import { IRouter } from './getRoute';
 import { unknownRouter } from './unknownRouter';
 
 export const boardPattern = new UrlPattern('/boards(/:boardId)');
 
-export const boardRouter: IRouter<{ body: Omit<Board, 'id'> }> = async (
+type BoardContext = {
+  body: BoardFields;
+};
+
+/**
+ * Work with Board route
+ * @param request Request
+ * @param response Response
+ * @param ctx context {@link BoardContext}
+ */
+export const boardRouter: IRouter<BoardContext> = async (
   request,
   response,
   ctx

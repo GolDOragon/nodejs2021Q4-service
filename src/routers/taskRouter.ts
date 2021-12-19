@@ -3,11 +3,21 @@ import { unknownRouter } from './unknownRouter';
 import * as taskController from '../controllers/taskController';
 import { validateUUID4 } from '../helpers/validateUUID4';
 import { IRouter } from './getRoute';
-import { Task } from '../models/Task.model';
+import { TaskFields } from '../models/Task.model';
 
 export const taskPattern = new UrlPattern('/boards/:boardId/tasks(/:taskId)');
 
-export const taskRouter: IRouter<{ body: Omit<Task, 'id'> }> = async (
+type TaskContext = {
+  body: TaskFields;
+};
+
+/**
+ * Work with task route
+ * @param request Request
+ * @param response Response
+ * @param ctx context {@link TaskContext}
+ */
+export const taskRouter: IRouter<TaskContext> = async (
   request,
   response,
   ctx
