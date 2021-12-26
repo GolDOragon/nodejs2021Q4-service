@@ -1,23 +1,31 @@
 import { createLogger, transports, format } from 'winston';
 import { DEBUG_LEVEL } from '../common/config';
-import { OPTIONS } from './options';
+import { levelFilter, LEVELS, LogLevels } from './options';
+
+const START_SERVER_DATE = new Date();
+const level = (DEBUG_LEVEL as LogLevels) ?? LogLevels.Info;
+
+const formats = [
+  format.timestamp(),
+  format.errors({ stack: true }),
+  format.splat(),
+  format.json(),
+  format.prettyPrint(),
+];
 
 export const logger = createLogger({
-  level: DEBUG_LEVEL || 'info',
-  format: format.combine(
-    format.timestamp(),
-    format.errors({ stack: true }),
-    format.splat(),
-    format.json(),
-    format.prettyPrint()
-  ),
+  levels: LEVELS,
+  level,
+  format: format.combine(...formats),
 
   transports: [
-    new transports.File(OPTIONS.error),
-    new transports.File(OPTIONS.warn),
-    new transports.File(OPTIONS.info),
-    new transports.File(OPTIONS.http),
-    new transports.Console(OPTIONS.debug),
+    new transports.File({
+      dirname: 'logs',
+      filename: `${level}-${START_SERVER_DATE.valueOf()}.log`,
+      format: format.combine(...formats, levelFilter(level)),
+    }),
+
+    new transports.Console({ level: LogLevels.Error }),
   ],
 
   exitOnError: false,
