@@ -20,12 +20,17 @@ export const logger = createLogger({
 
   transports: [
     new transports.File({
+      dirname: 'logs/error',
+      filename: `${LogLevels.Error}-${START_SERVER_DATE.valueOf()}.log`,
+      format: format.combine(...formats, levelFilter(LogLevels.Error)),
+    }),
+    new transports.File({
       dirname: 'logs',
       filename: `${level}-${START_SERVER_DATE.valueOf()}.log`,
       format: format.combine(...formats, levelFilter(level)),
     }),
 
-    new transports.Console({ level: LogLevels.Error }),
+    new transports.Console({ level }),
   ],
 
   exitOnError: false,

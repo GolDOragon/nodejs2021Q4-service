@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 
-// no idea how not to use "any"
 export type Newable<T> = { new (...args: never[]): T };
 
 /**
