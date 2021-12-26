@@ -1,8 +1,9 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import { ServerResponse } from 'node:http';
 import { getResponse } from '../helpers/getResponse';
 import * as taskService from '../services/taskService';
 import { RESPONSE_CODES } from '../helpers/responseCodes';
 import { TaskFields } from '../models/Task.model';
+import { Request } from '../../typings/Request';
 
 interface IBoardId {
   /** board id */
@@ -26,11 +27,11 @@ type GetAllTasksOptions = IBoardId;
  * @param options - options {@link GetAllTasksOptions}
  */
 export async function getAllTasks(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { boardId }: GetAllTasksOptions
 ) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     taskService.getTasks(boardId)
   );
 }
@@ -44,11 +45,11 @@ interface IGetTaskByIdOptions extends IBoardId, ITaskId {}
  * @param options - options {@link IGetTaskByIdOptions}
  */
 export async function getTaskById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { boardId, taskId }: IGetTaskByIdOptions
 ) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     taskService.getTaskById({ boardId, taskId })
   );
 }
@@ -62,11 +63,11 @@ interface ICreateTaskOptions extends IBoardId, ITaskBody {}
  * @param options - options {@link ICreateTaskOptions}
  */
 export async function createTask(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { boardId, body }: ICreateTaskOptions
 ) {
-  await getResponse(response, RESPONSE_CODES.Created, () =>
+  await getResponse(request, response, RESPONSE_CODES.Created, () =>
     taskService.createTask({ boardId, body })
   );
 }
@@ -80,11 +81,11 @@ interface IUpdateTaskById extends ITaskId, IBoardId, ITaskBody {}
  * @param options - options {@link IUpdateTaskById}
  */
 export async function updateTaskById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { boardId, taskId, body }: IUpdateTaskById
 ) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     taskService.updateTaskById({ boardId, taskId, body })
   );
 }
@@ -98,11 +99,11 @@ interface IDeleteTaskById extends ITaskId, IBoardId {}
  * @param options - options {@link IDeleteTaskById}
  */
 export async function deleteTaskById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { boardId, taskId }: IDeleteTaskById
 ) {
-  await getResponse(response, RESPONSE_CODES.Deleted, () =>
+  await getResponse(request, response, RESPONSE_CODES.Deleted, () =>
     taskService.deleteTaskById({ boardId, taskId })
   );
 }

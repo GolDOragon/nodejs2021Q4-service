@@ -1,5 +1,7 @@
 import { ServerResponse } from 'http';
+import { Request } from '../../typings/Request';
 import { AppError } from '../errors/AppError';
+import { logger } from '../logger';
 
 /**
  * Prepare and send response to a client
@@ -8,6 +10,7 @@ import { AppError } from '../errors/AppError';
  * @param responseBody - function that calculate body for response
  */
 export async function getResponse(
+  request: Request,
   response: ServerResponse,
   code: number,
   responseBody: () => Promise<object>
@@ -27,8 +30,14 @@ export async function getResponse(
     } else {
       response.statusCode = 500;
       response.write('Unknown error');
+      logger.error('Unknown error', { code: 500 });
     }
   } finally {
+    logger.http('Request:', {
+      body: request.body,
+      url: request.url,
+      code,
+    });
     response.end();
   }
 }

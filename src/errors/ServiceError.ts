@@ -12,7 +12,7 @@ export class ServiceError extends AppError {
    * @returns Service error
    */
   constructor(message: string, code: number) {
-    super({ message, code, logFile: 'serviceLog.txt', name: 'ServiceError' });
+    super({ message, code, name: 'ServiceError' });
 
     this.logger();
   }

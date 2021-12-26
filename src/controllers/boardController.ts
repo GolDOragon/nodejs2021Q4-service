@@ -1,8 +1,9 @@
-import { IncomingMessage, ServerResponse } from 'node:http';
+import { ServerResponse } from 'node:http';
 import { getResponse } from '../helpers/getResponse';
 import * as boardService from '../services/boardService';
 import { RESPONSE_CODES } from '../helpers/responseCodes';
 import { BoardFields } from '../models/Board.model';
+import { Request } from '../../typings/Request';
 
 interface IBoardId {
   /** board id */
@@ -19,11 +20,8 @@ interface IBoardBody {
  * @param _ - request
  * @param response - response
  */
-export async function getAllBoards(
-  _: IncomingMessage,
-  response: ServerResponse
-) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+export async function getAllBoards(request: Request, response: ServerResponse) {
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     boardService.getBoards()
   );
 }
@@ -37,11 +35,11 @@ type IGetBoardByIdOptions = IBoardId;
  * @param options - options {@link IGetBoardByIdOptions}
  */
 export async function getBoardById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { id }: IGetBoardByIdOptions
 ) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     boardService.getBoardById(id)
   );
 }
@@ -55,11 +53,11 @@ type ICreateBoardOptions = IBoardBody;
  * @param options - options {@link ICreateBoardOptions}
  */
 export async function createBoard(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { body }: ICreateBoardOptions
 ) {
-  await getResponse(response, RESPONSE_CODES.Created, () =>
+  await getResponse(request, response, RESPONSE_CODES.Created, () =>
     boardService.createBoard(body)
   );
 }
@@ -73,11 +71,11 @@ interface IUpdateBoardById extends IBoardId, IBoardBody {}
  * @param options - options {@link IUpdateBoardById}
  */
 export async function updateBoardById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { id, body }: IUpdateBoardById
 ) {
-  await getResponse(response, RESPONSE_CODES.OK, () =>
+  await getResponse(request, response, RESPONSE_CODES.OK, () =>
     boardService.updateBoardById(id, body)
   );
 }
@@ -91,11 +89,11 @@ type IDeleteBoardById = IBoardId;
  * @param options - options {@link IDeleteBoardById}
  */
 export async function deleteBoardById(
-  _: IncomingMessage,
+  request: Request,
   response: ServerResponse,
   { id }: IDeleteBoardById
 ) {
-  await getResponse(response, RESPONSE_CODES.Deleted, () =>
+  await getResponse(request, response, RESPONSE_CODES.Deleted, () =>
     boardService.deleteBoardById(id)
   );
 }

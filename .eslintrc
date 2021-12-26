@@ -21,6 +21,14 @@
         "tryExtensions": [".js", ".json", ".ts"]
       }
     ],
-    "tsdoc/syntax": "warn"
+    "tsdoc/syntax": "warn",
+    "@typescript-eslint/naming-convention": [
+      "error",
+      {
+        "selector": "default",
+        "format": ["camelCase", "PascalCase", "UPPER_CASE"]
+      }
+    ],
+    "no-process-exit": "off"
   }
 }

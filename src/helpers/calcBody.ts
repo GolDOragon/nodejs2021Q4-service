@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { Request } from '../../typings/Request';
 import { IRouter } from '../routers/getRoute';
 
 export type Context = { body: string | object };
@@ -35,7 +36,9 @@ export const calcBody = (
       }
     }
 
+    (request as Request).body = context.body as object;
+
     // move on to next step in handling response
-    router(request, response, context);
+    router(request as Request, response, context);
   });
 };
