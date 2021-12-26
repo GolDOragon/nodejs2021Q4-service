@@ -15,7 +15,6 @@ export class RepositoryError extends AppError {
     super({
       message,
       code,
-      logFile: 'repositoryLog.txt',
       name: 'RepositoryError',
     });
 

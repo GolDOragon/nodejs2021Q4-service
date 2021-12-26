@@ -1,5 +1,4 @@
-import fs from 'fs/promises';
-import path from 'path';
+import { logger } from '../logger';
 
 /** Options for {@link AppError} */
 interface AppErrorType {
@@ -9,8 +8,6 @@ interface AppErrorType {
   name: string;
   /** error code */
   code: number;
-  /** a file which will be using for logging errors */
-  logFile: string;
 }
 
 /**
@@ -19,33 +16,26 @@ interface AppErrorType {
 export class AppError extends Error {
   public code: number;
 
-  public logFile: string;
-
   /**
    * Create a application error
    * @param options - options for Error {@link AppErrorType}
    *
    * @returns Application error
    */
-  constructor({ message, name, code, logFile }: AppErrorType) {
+  constructor({ message, name, code }: AppErrorType) {
     super(message);
 
     this.name = name;
     this.code = code;
-    this.logFile = logFile;
   }
 
   /**
    * Log all error in selected file
    */
   logger() {
-    fs.appendFile(
-      path.resolve(__dirname, this.logFile),
-      `[${new Date().toISOString()}] code: ${this.code}, message: ${
-        this.message
-      }\n`
-    ).catch(() =>
-      console.log('Oops, something terrible happened to the AppError')
-    );
+    logger.error(this.message, {
+      name: this.name,
+      code: this.code,
+    });
   }
 }
