@@ -80,7 +80,7 @@ export class Repository<
       );
     }
 
-    const newItem = new this.Entity(item);
+    const newItem = new this.Entity(item as never);
 
     this.items.push(newItem);
 
