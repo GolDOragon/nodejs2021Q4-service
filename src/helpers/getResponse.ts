@@ -1,4 +1,5 @@
 import { ServerResponse } from 'http';
+import { Request } from '../../typings/Request';
 import { AppError } from '../errors/AppError';
 
 /**
@@ -8,6 +9,7 @@ import { AppError } from '../errors/AppError';
  * @param responseBody - function that calculate body for response
  */
 export async function getResponse(
+  request: Request,
   response: ServerResponse,
   code: number,
   responseBody: () => Promise<object>
