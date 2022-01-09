@@ -10,6 +10,7 @@
   "main": "src/server.js",
   "scripts": {
     "start": "ts-node-dev --inspect=0.0.0.0:9229 --respawn --clear --pretty src/server.ts",
+    "build": "tsc -p ./tsconfig.json",
     "lint": "eslint ./src --ext .js,.ts --ignore-path .gitignore --max-warnings 0",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace"
@@ -46,12 +47,9 @@
   "dependencies": {
     "cross-env": "7.0.3",
     "dotenv": "10.0.0",
-    "express": "4.17.1",
-    "swagger-ui-express": "4.1.6",
     "url-pattern": "^1.0.3",
     "uuid": "8.3.2",
-    "winston": "^3.3.3",
-    "yamljs": "0.3.0"
+    "winston": "^3.3.3"
   },
   "devDependencies": {
     "@microsoft/tsdoc": "^0.13.2",
@@ -70,7 +68,6 @@
     "husky": "^4.3.8",
     "jest": "27.3.1",
     "lint-staged": "12.0.3",
-    "nodemon": "2.0.15",
     "prettier": "2.4.1",
     "supertest": "6.1.6",
     "ts-node": "^10.4.0",
