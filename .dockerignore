@@ -1,0 +1,7 @@
+.git
+.gitignore
+.github
+.vscode
+database
+logs
+node_modules
