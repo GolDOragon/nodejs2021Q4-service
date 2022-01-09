@@ -1,9 +1,9 @@
 import { createLogger, transports, format } from 'winston';
-import { DEBUG_LEVEL } from '../common/config';
+import { BACKEND_DEBUG_LEVEL } from '../common/config';
 import { levelFilter, LEVELS, LogLevels } from './options';
 
 const START_SERVER_DATE = new Date();
-const level = (DEBUG_LEVEL as LogLevels) ?? LogLevels.Info;
+const level = (BACKEND_DEBUG_LEVEL as LogLevels) ?? LogLevels.Info;
 
 const formats = [
   format.timestamp(),

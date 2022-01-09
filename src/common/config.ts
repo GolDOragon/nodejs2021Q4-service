@@ -6,11 +6,13 @@ dotenv.config({
 });
 
 export const {
-  PORT,
   NODE_ENV,
+
+  BACKEND_PORT,
+  BACKEND_DEBUG_LEVEL,
+
   MONGO_CONNECTION_STRING,
   JWT_SECRET_KEY,
-  DEBUG_LEVEL,
 } = process.env;
 
-export const AUTH_MODE = process.env.AUTH_MODE === 'true';
+export const AUTH_MODE = process.env.BACKEND_AUTH_MODE === 'true';
