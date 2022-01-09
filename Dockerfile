@@ -1,12 +1,11 @@
-FROM node:lts-alpine3.15
+FROM node:16-alpine3.14
 
-WORKDIR /usr/nodejs2021q4
+WORKDIR /usr/app
 
-COPY package*.json ./
-
-RUN npm ci
+COPY package.json package-lock.json ./
+RUN npm ci --only-prod
 
 COPY . .
-RUN npm run lint
 
+EXPOSE 9229
 CMD ["npm", "start"]

@@ -1,7 +1,10 @@
 .git
-.gitignore
 .github
+.idea
 .vscode
-database
+dist
 logs
 node_modules
+Dockerfile
+.dockerignore
+docker-compose.yml
